@@ -1,0 +1,53 @@
+/**
+ * Address Module Constants
+ *
+ * Defines address labels, address types, lifecycle statuses,
+ * and input validation limits.
+ */
+
+const ADDRESS_LABELS = Object.freeze({
+  HOME: 'HOME',
+  WORK: 'WORK',
+  OFFICE: 'OFFICE',
+  OTHER: 'OTHER',
+});
+
+const ADDRESS_TYPES = Object.freeze({
+  RESIDENTIAL: 'RESIDENTIAL',
+  COMMERCIAL: 'COMMERCIAL',
+  OTHER: 'OTHER',
+});
+
+const ADDRESS_STATUS = Object.freeze({
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+});
+
+const ADDRESS_LIMITS = Object.freeze({
+  LABEL_MAX_LENGTH: 30,
+  FULL_NAME_MIN_LENGTH: 2,
+  FULL_NAME_MAX_LENGTH: 100,
+  ADDRESS_LINE1_MIN_LENGTH: 3,
+  ADDRESS_LINE1_MAX_LENGTH: 150,
+  ADDRESS_LINE2_MAX_LENGTH: 150,
+  LANDMARK_MAX_LENGTH: 100,
+  CITY_MIN_LENGTH: 2,
+  CITY_MAX_LENGTH: 50,
+  STATE_MIN_LENGTH: 2,
+  STATE_MAX_LENGTH: 50,
+  COUNTRY_MIN_LENGTH: 2,
+  COUNTRY_MAX_LENGTH: 50,
+  POSTAL_CODE_MIN_LENGTH: 4,
+  POSTAL_CODE_MAX_LENGTH: 10,
+  MIN_LATITUDE: -90,
+  MAX_LATITUDE: 90,
+  MIN_LONGITUDE: -180,
+  MAX_LONGITUDE: 180,
+});
+
+module.exports = {
+  ADDRESS_LABELS,
+  ADDRESS_TYPES,
+  ADDRESS_STATUS,
+  ADDRESS_LIMITS,
+};
