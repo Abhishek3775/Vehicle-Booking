@@ -20,12 +20,25 @@ const startServer = async () => {
       console.log(`🚗 Vehicle Endpoints mounted at: /api/vehicles`);
       console.log(`🏠 Address Endpoints mounted at: /api/addresses`);
       console.log(`🛠️ Service Endpoints mounted at: /api/services`);
+      console.log(`📦 Service Package Endpoints mounted at: /api/service-packages`);
+      console.log(`🔩 Parts / Inventory Endpoints mounted at: /api/parts`);
+      console.log(`📅 Booking Endpoints mounted at: /api/bookings`);
+      console.log(`🚨 Dispatch Endpoints mounted at: /api/dispatch`);
+      console.log(`🔧 Mechanic Endpoints mounted at: /api/mechanics`);
+      console.log(`🔍 Inspection Endpoints mounted at: /api/inspections`);
+      console.log(`💰 Quotation Endpoints mounted at: /api/quotations`);
+      console.log(`💳 Payment Endpoints mounted at: /api/payments`);
+      console.log(`🧾 Invoice Endpoints mounted at: /api/invoices`);
+      console.log(`🔔 Notification Endpoints mounted at: /api/notifications`);
+      console.log(`👑 Admin Endpoints mounted at: /api/admin`);
       console.log(`=================================================\n`);
     });
 
     // 3. Graceful shutdown handler
-    const gracefulShutdown = (signal) => {
+    const gracefulShutdown = async (signal) => {
       console.log(`\n[Server] Received ${signal}. Closing HTTP server and database connections...`);
+      const { disconnectDB } = require('./config/database');
+      await disconnectDB();
       server.close(() => {
         console.log('[Server] HTTP server closed gracefully.');
         process.exit(0);

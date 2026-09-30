@@ -4,7 +4,19 @@ const authRoutes = require('./modules/auth/auth.routes');
 const userRoutes = require('./modules/user/user.routes');
 const vehicleRoutes = require('./modules/vehicle/vehicle.routes');
 const addressRoutes = require('./modules/address/address.routes');
+const locationRoutes = require('./modules/location/location.routes');
 const serviceRoutes = require('./modules/service/service.routes');
+const servicePackageRoutes = require('./modules/service-package/servicePackage.routes');
+const partsRoutes = require('./modules/parts/parts.routes');
+const bookingRoutes = require('./modules/booking/booking.routes');
+const dispatchRoutes = require('./modules/dispatch/dispatch.routes');
+const mechanicRoutes = require('./modules/mechanic/mechanic.routes');
+const inspectionRoutes = require('./modules/inspection/inspection.routes');
+const quotationRoutes = require('./modules/quotation/quotation.routes');
+const paymentRoutes = require('./modules/payment/payment.routes');
+const invoiceRoutes = require('./modules/invoice/invoice.routes');
+const notificationRoutes = require('./modules/notification/notification.routes');
+const adminRoutes = require('./modules/admin/admin.routes');
 
 const app = express();
 
@@ -37,8 +49,44 @@ app.use('/api/vehicles', vehicleRoutes);
 // Address Module Routes
 app.use('/api/addresses', addressRoutes);
 
+// Location Module Routes
+app.use('/api/locations', locationRoutes);
+
 // Service Catalogue Module Routes
 app.use('/api/services', serviceRoutes);
+
+// Service Package Module Routes
+app.use('/api/service-packages', servicePackageRoutes);
+
+// Parts / Inventory Module Routes
+app.use('/api/parts', partsRoutes);
+
+// Booking Module Routes
+app.use('/api/bookings', bookingRoutes);
+
+// Dispatch Module Routes
+app.use('/api/dispatch', dispatchRoutes);
+
+// Mechanic Module Routes
+app.use('/api/mechanics', mechanicRoutes);
+
+// Inspection Module Routes
+app.use('/api/inspections', inspectionRoutes);
+
+// Quotation Module Routes
+app.use('/api/quotations', quotationRoutes);
+
+// Payment Module Routes
+app.use('/api/payments', paymentRoutes);
+
+// Invoice Module Routes
+app.use('/api/invoices', invoiceRoutes);
+
+// Notification Module Routes
+app.use('/api/notifications', notificationRoutes);
+
+// Admin Module Routes
+app.use('/api/admin', adminRoutes);
 
 // Catch-all 404 Route Handler
 app.use((req, res) => {

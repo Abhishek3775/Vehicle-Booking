@@ -297,6 +297,84 @@ class AuthService {
   }
 
   /**
+   * Authenticate user with Email/Identifier and Password
+   * Primarily designed for Admin Portal login with email and password
+   * @param {string} identifier - Email address or phone
+   * @param {string} password - Password in plain text
+   * @returns {Promise<{ accessToken: string, refreshToken: string, user: object }>}
+   */
+  async loginWithPassword(identifier, password) {
+    if (!identifier || typeof identifier !== 'string' || !identifier.trim()) {
+      throw new AppError('Email is required.', 400);
+    }
+    if (!password || typeof password !== 'string') {
+      throw new AppError('Password is required.', 400);
+    }
+
+    const cleanIdentifier = identifier.trim();
+    const auth = await authRepository.findByIdentifier(cleanIdentifier, { includeSecrets: true });
+
+    if (!auth) {
+      throw new AppError('Invalid email or password. Please try again.', 401);
+    }
+
+    // Account status check
+    if (auth.accountStatus === ACCOUNT_STATUS.DEACTIVATED) {
+      throw new AppError('This account has been deactivated. Please contact support.', 403);
+    }
+    if (auth.accountStatus === ACCOUNT_STATUS.BLOCKED) {
+      throw new AppError('This account has been blocked. Please contact support.', 403);
+    }
+    if (auth.accountStatus === ACCOUNT_STATUS.SUSPENDED) {
+      throw new AppError('This account is suspended. Please contact support.', 403);
+    }
+
+    // Password availability check
+    if (!auth.passwordHash) {
+      throw new AppError(
+        'Password login is not configured for this account. Please contact an administrator.',
+        401
+      );
+    }
+
+    // Verify password
+    const isPasswordValid = await bcrypt.compare(password, auth.passwordHash);
+    if (!isPasswordValid) {
+      throw new AppError('Invalid email or password. Please try again.', 401);
+    }
+
+    // Issue JWT access and refresh tokens
+    const accessToken = this.generateAccessToken({
+      userId: auth.userId.toString(),
+      role: auth.role,
+    });
+
+    const refreshToken = this.generateRefreshToken({
+      userId: auth.userId.toString(),
+    });
+
+    const now = new Date();
+    const updatedAuth = await authRepository.setSession(auth.userId, {
+      refreshToken,
+      lastLoginAt: now,
+    });
+
+    return {
+      accessToken,
+      refreshToken,
+      user: {
+        userId: updatedAuth.userId,
+        phone: updatedAuth.phone,
+        email: updatedAuth.email,
+        role: updatedAuth.role,
+        accountStatus: updatedAuth.accountStatus,
+        isPhoneVerified: updatedAuth.isPhoneVerified,
+        lastLoginAt: updatedAuth.lastLoginAt,
+      },
+    };
+  }
+
+  /**
    * Refresh JWT access token using a valid refresh token
    * Follows token rotation for enhanced security
    * @param {string} incomingRefreshToken

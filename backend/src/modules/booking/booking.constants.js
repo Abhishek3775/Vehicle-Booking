@@ -1,0 +1,75 @@
+/**
+ * Booking Module Constants
+ *
+ * Defines booking types, comprehensive lifecycle statuses,
+ * cancellable status boundaries, pagination defaults, and validation boundaries.
+ */
+
+const BOOKING_TYPES = Object.freeze({
+  SCHEDULED: 'SCHEDULED',
+  EMERGENCY: 'EMERGENCY',
+});
+
+const BOOKING_STATUS = Object.freeze({
+  PENDING: 'PENDING',
+  ASSIGNED: 'ASSIGNED',
+  ACCEPTED: 'ACCEPTED',
+  ON_THE_WAY: 'ON_THE_WAY',
+  ARRIVED: 'ARRIVED',
+  INSPECTION: 'INSPECTION',
+  QUOTE_PENDING: 'QUOTE_PENDING',
+  QUOTE_APPROVED: 'QUOTE_APPROVED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  PAYMENT_PENDING: 'PAYMENT_PENDING',
+  PAID: 'PAID',
+  CLOSED: 'CLOSED',
+  CANCELLED: 'CANCELLED',
+});
+
+// Statuses from which a customer is permitted to cancel their booking
+const CANCELLABLE_STATUSES = Object.freeze([
+  BOOKING_STATUS.PENDING,
+  BOOKING_STATUS.ASSIGNED,
+  BOOKING_STATUS.ACCEPTED,
+]);
+
+// Terminal or late-stage statuses where customer cancellation is strictly prohibited
+const NON_CANCELLABLE_STATUSES = Object.freeze([
+  BOOKING_STATUS.ON_THE_WAY,
+  BOOKING_STATUS.ARRIVED,
+  BOOKING_STATUS.INSPECTION,
+  BOOKING_STATUS.QUOTE_PENDING,
+  BOOKING_STATUS.QUOTE_APPROVED,
+  BOOKING_STATUS.IN_PROGRESS,
+  BOOKING_STATUS.COMPLETED,
+  BOOKING_STATUS.PAYMENT_PENDING,
+  BOOKING_STATUS.PAID,
+  BOOKING_STATUS.CLOSED,
+  BOOKING_STATUS.CANCELLED,
+]);
+
+const PAGINATION_LIMITS = Object.freeze({
+  DEFAULT_PAGE: 1,
+  DEFAULT_LIMIT: 10,
+  MAX_LIMIT: 50,
+});
+
+const BOOKING_LIMITS = Object.freeze({
+  NOTES_MAX_LENGTH: 1000,
+  REASON_MIN_LENGTH: 3,
+  REASON_MAX_LENGTH: 500,
+  MIN_LATITUDE: -90,
+  MAX_LATITUDE: 90,
+  MIN_LONGITUDE: -180,
+  MAX_LONGITUDE: 180,
+});
+
+module.exports = {
+  BOOKING_TYPES,
+  BOOKING_STATUS,
+  CANCELLABLE_STATUSES,
+  NON_CANCELLABLE_STATUSES,
+  PAGINATION_LIMITS,
+  BOOKING_LIMITS,
+};

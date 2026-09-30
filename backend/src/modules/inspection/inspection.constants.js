@@ -1,0 +1,93 @@
+/**
+ * Inspection Module Constants
+ *
+ * Defines inspection lifecycle statuses, checklist condition ratings,
+ * severity classifications, recommendation priorities, and structural categories.
+ */
+
+const INSPECTION_STATUS = Object.freeze({
+  PENDING: 'PENDING',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED',
+});
+
+const OVERALL_CONDITION = Object.freeze({
+  GOOD: 'GOOD',
+  FAIR: 'FAIR',
+  REQUIRES_REPAIR: 'REQUIRES_REPAIR',
+  CRITICAL: 'CRITICAL',
+});
+
+const CHECKLIST_CONDITION = Object.freeze({
+  GOOD: 'GOOD',
+  NORMAL: 'NORMAL',
+  REQUIRES_ATTENTION: 'REQUIRES_ATTENTION',
+  CRITICAL: 'CRITICAL',
+  NOT_CHECKED: 'NOT_CHECKED',
+});
+
+const SEVERITY_LEVELS = Object.freeze({
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  CRITICAL: 'CRITICAL',
+});
+
+const PRIORITY_LEVELS = Object.freeze({
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  URGENT: 'URGENT',
+});
+
+const INSPECTION_CATEGORIES = Object.freeze({
+  ENGINE: 'ENGINE',
+  BRAKES: 'BRAKES',
+  TYRES: 'TYRES',
+  BATTERY: 'BATTERY',
+  AC: 'AC',
+  ELECTRICAL: 'ELECTRICAL',
+  SUSPENSION: 'SUSPENSION',
+  FLUIDS: 'FLUIDS',
+  EXTERIOR: 'EXTERIOR',
+  INTERIOR: 'INTERIOR',
+  OTHER: 'OTHER',
+});
+
+const PHOTO_CATEGORIES = Object.freeze({
+  VEHICLE: 'VEHICLE',
+  ENGINE: 'ENGINE',
+  BRAKES: 'BRAKES',
+  TYRE: 'TYRE',
+  DAMAGE: 'DAMAGE',
+  PART: 'PART',
+  OTHER: 'OTHER',
+});
+
+const PAGINATION_LIMITS = Object.freeze({
+  DEFAULT_PAGE: 1,
+  DEFAULT_LIMIT: 10,
+  MAX_LIMIT: 50,
+});
+
+const INSPECTION_LIMITS = Object.freeze({
+  TITLE_MIN_LENGTH: 2,
+  TITLE_MAX_LENGTH: 100,
+  DESC_MAX_LENGTH: 2000,
+  NOTES_MAX_LENGTH: 2000,
+  ITEM_NAME_MAX_LENGTH: 100,
+  REASON_MAX_LENGTH: 500,
+});
+
+module.exports = {
+  INSPECTION_STATUS,
+  OVERALL_CONDITION,
+  CHECKLIST_CONDITION,
+  SEVERITY_LEVELS,
+  PRIORITY_LEVELS,
+  INSPECTION_CATEGORIES,
+  PHOTO_CATEGORIES,
+  PAGINATION_LIMITS,
+  INSPECTION_LIMITS,
+};

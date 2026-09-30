@@ -1,0 +1,54 @@
+/**
+ * Service Package Module Constants
+ *
+ * Defines package lifecycle statuses, supported vehicle types,
+ * pagination defaults, and validation boundaries.
+ */
+
+const PACKAGE_STATUS = Object.freeze({
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+});
+
+const VEHICLE_TYPES = Object.freeze({
+  TWO_WHEELER: 'TWO_WHEELER',
+  FOUR_WHEELER: 'FOUR_WHEELER',
+});
+
+const PACKAGE_CATEGORIES = Object.freeze({
+  PERIODIC_MAINTENANCE: 'PERIODIC_MAINTENANCE',
+  SEASONAL_CARE: 'SEASONAL_CARE',
+  COMPREHENSIVE: 'COMPREHENSIVE',
+  INSPECTION_HEALTH: 'INSPECTION_HEALTH',
+  CLEANING_DETAILING: 'CLEANING_DETAILING',
+  CUSTOM: 'CUSTOM',
+  OTHER: 'OTHER',
+});
+
+const PAGINATION_LIMITS = Object.freeze({
+  DEFAULT_PAGE: 1,
+  DEFAULT_LIMIT: 20,
+  MAX_LIMIT: 100,
+});
+
+const PACKAGE_LIMITS = Object.freeze({
+  NAME_MIN_LENGTH: 3,
+  NAME_MAX_LENGTH: 100,
+  SHORT_DESC_MAX_LENGTH: 200,
+  DESC_MAX_LENGTH: 2000,
+  MIN_PRICE: 0,
+  MAX_PRICE: 10000000,
+  MIN_DURATION: 1,
+  MAX_DURATION: 2880, // Up to 48 hours in minutes
+  MIN_DISPLAY_ORDER: 0,
+  MAX_BENEFITS: 30,
+  BENEFIT_MAX_LENGTH: 250,
+});
+
+module.exports = {
+  PACKAGE_STATUS,
+  VEHICLE_TYPES,
+  PACKAGE_CATEGORIES,
+  PAGINATION_LIMITS,
+  PACKAGE_LIMITS,
+};

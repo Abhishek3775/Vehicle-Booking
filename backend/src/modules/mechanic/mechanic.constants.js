@@ -1,0 +1,74 @@
+/**
+ * Mechanic Module Constants
+ *
+ * Defines availability statuses, work lifecycle states, verification boundaries,
+ * supported vehicle types, specializations, pagination defaults, and validation limits.
+ */
+
+const AVAILABILITY_STATUS = Object.freeze({
+  AVAILABLE: 'AVAILABLE',
+  UNAVAILABLE: 'UNAVAILABLE',
+  OFFLINE: 'OFFLINE',
+});
+
+const WORK_STATUS = Object.freeze({
+  IDLE: 'IDLE',
+  ON_JOB: 'ON_JOB',
+  PAUSED: 'PAUSED',
+});
+
+const VERIFICATION_STATUS = Object.freeze({
+  PENDING: 'PENDING',
+  VERIFIED: 'VERIFIED',
+  REJECTED: 'REJECTED',
+  SUSPENDED: 'SUSPENDED',
+});
+
+const VEHICLE_TYPES = Object.freeze({
+  TWO_WHEELER: 'TWO_WHEELER',
+  FOUR_WHEELER: 'FOUR_WHEELER',
+});
+
+const SPECIALIZATIONS = Object.freeze({
+  GENERAL_SERVICE: 'GENERAL_SERVICE',
+  ENGINE: 'ENGINE',
+  BRAKE: 'BRAKE',
+  AC: 'AC',
+  BATTERY: 'BATTERY',
+  TYRE: 'TYRE',
+  DIAGNOSTICS: 'DIAGNOSTICS',
+  ELECTRICAL: 'ELECTRICAL',
+  BODY_WORK: 'BODY_WORK',
+  ROADSIDE_ASSISTANCE: 'ROADSIDE_ASSISTANCE',
+  MULTI_DISCIPLINARY: 'MULTI_DISCIPLINARY',
+});
+
+const PAGINATION_LIMITS = Object.freeze({
+  DEFAULT_PAGE: 1,
+  DEFAULT_LIMIT: 20,
+  MAX_LIMIT: 50,
+});
+
+const MECHANIC_LIMITS = Object.freeze({
+  DISPLAY_NAME_MIN_LENGTH: 2,
+  DISPLAY_NAME_MAX_LENGTH: 100,
+  MIN_EXPERIENCE_YEARS: 0,
+  MAX_EXPERIENCE_YEARS: 50,
+  MIN_SERVICE_RADIUS: 1,
+  MAX_SERVICE_RADIUS: 100,
+  DEFAULT_SERVICE_RADIUS: 15, // in km
+  MIN_LATITUDE: -90,
+  MAX_LATITUDE: 90,
+  MIN_LONGITUDE: -180,
+  MAX_LONGITUDE: 180,
+});
+
+module.exports = {
+  AVAILABILITY_STATUS,
+  WORK_STATUS,
+  VERIFICATION_STATUS,
+  VEHICLE_TYPES,
+  SPECIALIZATIONS,
+  PAGINATION_LIMITS,
+  MECHANIC_LIMITS,
+};

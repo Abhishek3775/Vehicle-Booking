@@ -1,0 +1,94 @@
+/**
+ * Payment Module Constants
+ *
+ * Defines payment lifecycle statuses, supported payment methods, gateways,
+ * currencies, allowed status transitions, and validation limits.
+ */
+
+const PAYMENT_STATUS = Object.freeze({
+  CREATED: 'CREATED',
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED',
+  REFUNDED: 'REFUNDED',
+  PARTIALLY_REFUNDED: 'PARTIALLY_REFUNDED',
+});
+
+const PAYMENT_METHODS = Object.freeze({
+  RAZORPAY: 'RAZORPAY',
+  CASH: 'CASH',
+  UPI: 'UPI',
+  CARD: 'CARD',
+  NET_BANKING: 'NET_BANKING',
+});
+
+const PAYMENT_GATEWAYS = Object.freeze({
+  RAZORPAY: 'RAZORPAY',
+  CASH: 'CASH',
+  NONE: 'NONE',
+});
+
+const CURRENCIES = Object.freeze({
+  INR: 'INR',
+  USD: 'USD',
+});
+
+const WEBHOOK_EVENTS = Object.freeze({
+  PAYMENT_CAPTURED: 'payment.captured',
+  PAYMENT_FAILED: 'payment.failed',
+  ORDER_PAID: 'order.paid',
+});
+
+// Permitted status transitions to enforce state machine integrity
+const ALLOWED_STATUS_TRANSITIONS = Object.freeze({
+  [PAYMENT_STATUS.CREATED]: [
+    PAYMENT_STATUS.PENDING,
+    PAYMENT_STATUS.PROCESSING,
+    PAYMENT_STATUS.SUCCESS,
+    PAYMENT_STATUS.CANCELLED,
+    PAYMENT_STATUS.FAILED,
+  ],
+  [PAYMENT_STATUS.PENDING]: [
+    PAYMENT_STATUS.PROCESSING,
+    PAYMENT_STATUS.SUCCESS,
+    PAYMENT_STATUS.FAILED,
+    PAYMENT_STATUS.CANCELLED,
+  ],
+  [PAYMENT_STATUS.PROCESSING]: [
+    PAYMENT_STATUS.SUCCESS,
+    PAYMENT_STATUS.FAILED,
+  ],
+  [PAYMENT_STATUS.SUCCESS]: [
+    PAYMENT_STATUS.REFUNDED,
+    PAYMENT_STATUS.PARTIALLY_REFUNDED,
+  ],
+  [PAYMENT_STATUS.FAILED]: [],
+  [PAYMENT_STATUS.CANCELLED]: [],
+  [PAYMENT_STATUS.REFUNDED]: [],
+  [PAYMENT_STATUS.PARTIALLY_REFUNDED]: [
+    PAYMENT_STATUS.REFUNDED,
+  ],
+});
+
+const PAGINATION_LIMITS = Object.freeze({
+  DEFAULT_PAGE: 1,
+  DEFAULT_LIMIT: 10,
+  MAX_LIMIT: 50,
+});
+
+const PAYMENT_LIMITS = Object.freeze({
+  MAX_FAILURE_REASON_LENGTH: 500,
+});
+
+module.exports = {
+  PAYMENT_STATUS,
+  PAYMENT_METHODS,
+  PAYMENT_GATEWAYS,
+  CURRENCIES,
+  WEBHOOK_EVENTS,
+  ALLOWED_STATUS_TRANSITIONS,
+  PAGINATION_LIMITS,
+  PAYMENT_LIMITS,
+};

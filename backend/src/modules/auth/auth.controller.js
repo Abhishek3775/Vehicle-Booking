@@ -1,4 +1,5 @@
 const { authService, AppError } = require('./auth.service');
+const authRepository = require('./auth.repository');
 
 /**
  * Authentication Controller
@@ -43,6 +44,29 @@ class AuthController {
       return res.status(200).json({
         success: true,
         message: 'OTP verified successfully.',
+        data: {
+          accessToken: result.accessToken,
+          refreshToken: result.refreshToken,
+          user: result.user,
+        },
+      });
+    } catch (error) {
+      return AuthController.handleError(res, error);
+    }
+  }
+
+  /**
+   * POST /api/auth/login
+   * Authenticate user using Email and Password
+   */
+  async login(req, res) {
+    try {
+      const { email, password } = req.body;
+      const result = await authService.loginWithPassword(email, password);
+
+      return res.status(200).json({
+        success: true,
+        message: 'Authentication successful.',
         data: {
           accessToken: result.accessToken,
           refreshToken: result.refreshToken,
@@ -103,6 +127,37 @@ class AuthController {
         success: true,
         message: 'Logged out successfully. Session invalidated.',
         data: {},
+      });
+    } catch (error) {
+      return AuthController.handleError(res, error);
+    }
+  }
+
+  /**
+   * GET /api/auth/me
+   * Retrieve current authenticated user profile
+   */
+  async getMe(req, res) {
+    try {
+      const auth = await authRepository.findByUserId(req.user.userId);
+      if (!auth) {
+        return res.status(404).json({
+          success: false,
+          message: 'User account not found.',
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        data: {
+          userId: auth.userId,
+          phone: auth.phone,
+          email: auth.email,
+          role: auth.role,
+          accountStatus: auth.accountStatus,
+          isPhoneVerified: auth.isPhoneVerified,
+          lastLoginAt: auth.lastLoginAt,
+        },
       });
     } catch (error) {
       return AuthController.handleError(res, error);

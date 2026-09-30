@@ -23,6 +23,40 @@ class AuthRepository {
   }
 
   /**
+   * Find an auth record by email
+   * @param {string} email
+   * @param {object} options
+   * @param {boolean} options.includeSecrets
+   * @returns {Promise<import('./auth.model')|null>}
+   */
+  async findByEmail(email, { includeSecrets = false } = {}) {
+    if (!email) return null;
+    const query = Auth.findOne({ email: email.toLowerCase().trim() });
+    if (includeSecrets) {
+      query.select('+otpHash +refreshToken +passwordHash');
+    }
+    return query.exec();
+  }
+
+  /**
+   * Find an auth record by email or phone
+   * @param {string} identifier
+   * @param {object} options
+   * @returns {Promise<import('./auth.model')|null>}
+   */
+  async findByIdentifier(identifier, { includeSecrets = false } = {}) {
+    if (!identifier) return null;
+    const clean = identifier.trim();
+    const isEmail = clean.includes('@');
+    const query = isEmail ? { email: clean.toLowerCase() } : { phone: clean };
+    const q = Auth.findOne(query);
+    if (includeSecrets) {
+      q.select('+otpHash +refreshToken +passwordHash');
+    }
+    return q.exec();
+  }
+
+  /**
    * Find an auth record by userId
    * @param {string|import('mongoose').Types.ObjectId} userId
    * @param {object} options
@@ -169,6 +203,41 @@ class AuthRepository {
     return Auth.findOneAndUpdate(
       { userId },
       { $set: { refreshToken: null } },
+      { new: true }
+    ).exec();
+  }
+
+  /**
+   * Update session details (refresh token and last login timestamp)
+   * @param {string|import('mongoose').Types.ObjectId} userId
+   * @param {object} sessionData
+   * @param {string} sessionData.refreshToken
+   * @param {Date} [sessionData.lastLoginAt]
+   * @returns {Promise<import('./auth.model')|null>}
+   */
+  async setSession(userId, { refreshToken, lastLoginAt }) {
+    return Auth.findOneAndUpdate(
+      { userId },
+      {
+        $set: {
+          refreshToken,
+          lastLoginAt: lastLoginAt || new Date(),
+        },
+      },
+      { new: true }
+    ).exec();
+  }
+
+  /**
+   * Set or update hashed password for a user
+   * @param {string|import('mongoose').Types.ObjectId} userId
+   * @param {string} passwordHash
+   * @returns {Promise<import('./auth.model')|null>}
+   */
+  async setPassword(userId, passwordHash) {
+    return Auth.findOneAndUpdate(
+      { userId },
+      { $set: { passwordHash } },
       { new: true }
     ).exec();
   }

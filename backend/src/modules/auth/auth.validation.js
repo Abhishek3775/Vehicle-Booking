@@ -137,10 +137,42 @@ const validateLogout = (req, res, next) => {
   next();
 };
 
+/**
+ * Middleware: Validate email & password login payload
+ */
+const validateLogin = (req, res, next) => {
+  const errors = {};
+  const { email, password } = req.body || {};
+
+  if (!email || typeof email !== 'string' || !email.trim()) {
+    errors.email = 'Email address is required';
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+    errors.email = 'Please provide a valid email address';
+  }
+
+  if (!password || typeof password !== 'string' || !password.trim()) {
+    errors.password = 'Password is required';
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return res.status(400).json({
+      success: false,
+      message: 'Validation failed',
+      error: { fields: errors },
+    });
+  }
+
+  req.body.email = email.trim().toLowerCase();
+  req.body.password = password;
+  next();
+};
+
 module.exports = {
   sanitizePhone,
   validateRequestOtp,
   validateVerifyOtp,
   validateRefreshToken,
   validateLogout,
+  validateLogin,
 };
+
